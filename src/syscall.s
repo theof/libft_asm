@@ -12,21 +12,14 @@ section .text
 
 extern _printf
 
-strcat:
+global _ft_memcpy
+_ft_memcpy:
 	ret
-isalpha:
+global _ft_strdup
+_ft_strdup:
 	ret
-isdigit:
-	ret
-isalnum:
-	ret
-isascii:
-	ret
-isprint:
-	ret
-toupper:
-	ret
-tolower:
+global _ft_cat
+_ft_cat:
 	ret
 
 ;_main:
