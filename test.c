@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   test.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tvallee <tvallee@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/09/29 19:44:50 by tvallee           #+#    #+#             */
+/*   Updated: 2018/09/29 19:46:21 by tvallee          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <limits.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -6,23 +18,7 @@
 #include <string.h>
 #include <stdio.h>
 
-void	ft_bzero(void *s, size_t n);
-char	*ft_strcat(char *restrict s1, const char *restrict s2);
-int		ft_isalpha(int c);
-int		ft_islower(int c);
-int		ft_isupper(int c);
-int		ft_isdigit(int c);
-int		ft_isalnum(int c);
-int		ft_isascii(int c);
-int		ft_isprint(int c);
-int		ft_toupper(int c);
-int		ft_tolower(int c);
-int		ft_puts(const char *s);
-size_t	ft_strlen(const char *s);
-void	*ft_memset(void *b, int c, size_t len);
-void	*ft_memcpy(void *restrict dst, const void *restrict src, size_t n);
-char	*ft_strdup(const char *s1);
-void	ft_cat(int fd);
+#include "libfts.h"
 
 static void test_puts(void)
 {
@@ -142,9 +138,39 @@ static void	test_memset(void)
 		assert(buf[c] == 'd');
 	assert(buf[3] == 'a');
 
-	ft_memset(buf + 128, 0, 1);
+	assert(ft_memset(buf + 128, 0, 1) == buf + 128);
 	assert(buf[129] == 'a');
 	assert(buf[128] == 0);
+}
+
+static void	test_memcpy(void)
+{
+	char	buf[256] = "slt correcteur";
+
+	assert(ft_memcpy(buf, "bjr", 0) == buf);
+	assert(strcmp(buf, "slt correcteur") == 0);
+	ft_memcpy(buf, "bjr", 3);
+	assert(strcmp(buf, "bjr correcteur") == 0);
+}
+
+static void	test_strdup(void)
+{
+	char const	*tests[] = {
+		"",
+		"abcd",
+		"hello ceci est une grosse string\n"
+	};
+	char	*tmp;
+	size_t	test;
+	size_t	ref;
+
+	for (int i = sizeof(tests) / sizeof(*tests) - 1; i >= 0; i--)
+	{
+		tmp = ft_strdup(tests[i]);
+		if (tmp)
+			assert(!strcmp(tmp, tests[i]));
+		free(tmp);
+	}
 }
 
 int		main(void)
@@ -167,4 +193,6 @@ int		main(void)
 		return 0;
 	}
 	test_memset();
+	test_memcpy();
+	test_strdup();
 }

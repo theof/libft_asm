@@ -1,14 +1,26 @@
+; **************************************************************************** ;
+;                                                                              ;
+;                                                         :::      ::::::::    ;
+;    ft_memset.s                                        :+:      :+:    :+:    ;
+;                                                     +:+ +:+         +:+      ;
+;    By: tvallee <marvin@42.fr>                     +#+  +:+       +#+         ;
+;                                                 +#+#+#+#+#+   +#+            ;
+;    Created: 2018/09/29 16:23:58 by tvallee           #+#    #+#              ;
+;    Updated: 2018/09/29 18:51:01 by tvallee          ###   ########.fr        ;
+;                                                                              ;
+; **************************************************************************** ;
+
 global _ft_memset
 _ft_memset:
-	enter 8, 0
+	enter 0, 0
 
 	mov rcx, rdx
 	mov eax, esi
+	mov rdx, rdi
 
 	cld
-	push rdi
 	rep stosb
-	pop rdi
-_ft_memset_end:
+	mov rax, rdx
+
 	leave
 	ret

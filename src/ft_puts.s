@@ -1,3 +1,15 @@
+; **************************************************************************** ;
+;                                                                              ;
+;                                                         :::      ::::::::    ;
+;    ft_puts.s                                          :+:      :+:    :+:    ;
+;                                                     +:+ +:+         +:+      ;
+;    By: tvallee <tvallee@student.42.fr>            +#+  +:+       +#+         ;
+;                                                 +#+#+#+#+#+   +#+            ;
+;    Created: 2018/09/29 19:52:09 by tvallee           #+#    #+#              ;
+;    Updated: 2018/09/29 19:52:13 by tvallee          ###   ########.fr        ;
+;                                                                              ;
+; **************************************************************************** ;
+
 %define MACH_SYSCALL(x) 0x2000000 | x
 %define WRITE 0x4
 
@@ -19,11 +31,11 @@ _ft_puts:
 	je _ft_puts_null
 
 _ft_puts_str:
-	enter 16, 0
-	push rsi
-	push rdi
+	enter 0, 0
 
+	push rdi
 	call _ft_strlen
+	pop rdi
 	mov rdx, rax
 
 	mov rsi, rdi
@@ -36,15 +48,11 @@ _ft_puts_str:
 	mov rax, MACH_SYSCALL(WRITE)
 	syscall
 
-	pop rsi
-	pop rdi
 	leave
 	ret
 
 _ft_puts_null:
-	enter 16, 0
-	push rdi
-	push rsi
+	enter 0, 0
 
 	mov rdi, 1
 	lea rsi, [rel null.str]
@@ -52,7 +60,5 @@ _ft_puts_null:
 	mov rax, MACH_SYSCALL(WRITE)
 	syscall
 
-	pop rsi
-	pop rdi
 	leave
 	ret

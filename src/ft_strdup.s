@@ -1,28 +1,45 @@
 ; **************************************************************************** ;
 ;                                                                              ;
 ;                                                         :::      ::::::::    ;
-;    ft_isprint.s                                       :+:      :+:    :+:    ;
+;    ft_strdup.s                                        :+:      :+:    :+:    ;
 ;                                                     +:+ +:+         +:+      ;
 ;    By: tvallee <tvallee@student.42.fr>            +#+  +:+       +#+         ;
 ;                                                 +#+#+#+#+#+   +#+            ;
-;    Created: 2018/09/29 19:51:22 by tvallee           #+#    #+#              ;
-;    Updated: 2018/09/29 19:51:26 by tvallee          ###   ########.fr        ;
+;    Created: 2018/09/29 19:52:36 by tvallee           #+#    #+#              ;
+;    Updated: 2018/09/29 19:52:57 by tvallee          ###   ########.fr        ;
 ;                                                                              ;
 ; **************************************************************************** ;
 
 section .text
 
-global _ft_isprint
-_ft_isprint:
+extern _malloc
+extern _ft_strlen
+
+global _ft_strdup
+_ft_strdup:
 	enter 0, 0
-	cmp edi, ' '
-	jl _ft_isprint_false
-	cmp edi, '~'
-	jg _ft_isprint_false
-	mov eax, 1
-	leave
-	ret
-_ft_isprint_false:
-	mov eax, 0
+	push r12
+	push r13
+
+	mov r12, rdi
+	call _ft_strlen
+	inc rax
+	mov r13, rax
+	mov rdi, rax
+	call _malloc
+	cmp rax, 0
+	je _ft_strdup_end
+
+	mov rcx, r13
+	mov rsi, r12
+	mov rdi, rax
+	mov rdx, rdi ; save the pointer returned by malloc
+	cld
+	rep movsb
+	mov rax, rdx
+	
+_ft_strdup_end:
+	pop r13
+	pop r12
 	leave
 	ret
