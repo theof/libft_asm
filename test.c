@@ -6,7 +6,7 @@
 /*   By: tvallee <tvallee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/29 19:44:50 by tvallee           #+#    #+#             */
-/*   Updated: 2018/09/29 19:46:21 by tvallee          ###   ########.fr       */
+/*   Updated: 2018/10/01 13:53:02 by tvallee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,37 @@ static void	test_strdup(void)
 	}
 }
 
+static void	test_cat(void)
+{
+	int		ret;
+	int		puts_ret1;
+	int		puts_ret2;
+	int		out;
+	int		p[2];
+	char	buf[10000];
+	int		writep[2];
+
+	pipe(writep);
+	write(writep[1], "slt\n", 4);
+	close(writep[1]);
+
+	out = dup(1);
+	pipe(p);
+	dup2(p[1], 1);
+	ft_cat(writep[0]);
+	dup2(out, 1);
+
+	close(writep[0]);
+
+	ret = read(p[0], buf, 10000);
+	buf[ret] = 0;
+	close(p[0]);
+	close(p[1]);
+	close(out);
+	assert(ret == 4);
+	assert(strcmp(buf, "slt\n") == 0);
+}
+
 int		main(void)
 {
 	test_bzero();
@@ -195,4 +226,5 @@ int		main(void)
 	test_memset();
 	test_memcpy();
 	test_strdup();
+	test_cat();
 }
