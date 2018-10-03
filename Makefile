@@ -6,7 +6,7 @@
 #    By: tvallee <tvallee@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/09/29 19:46:40 by tvallee           #+#    #+#              #
-#    Updated: 2018/09/29 19:49:07 by tvallee          ###   ########.fr        #
+#    Updated: 2018/10/03 17:37:56 by tvallee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ LIBFT_SRC_NAMES  = ft_cat.s ft_bzero.s ft_strcat.s ft_isalpha.s ft_isupper.s
 LIBFT_SRC_NAMES += ft_islower.s ft_isdigit.s ft_isalnum.s ft_isprint.s
 LIBFT_SRC_NAMES += ft_toupper.s ft_tolower.s ft_isascii.s ft_strlen.s ft_puts.s
 LIBFT_SRC_NAMES += ft_memset.s ft_memcpy.s ft_strdup.s
+LIBFT_SRC_NAMES += ft_putchar.s ft_putnbr.s ft_putstr.s ft_strcmp.s
 LIBFT_SRC= $(addprefix $(LIBFT_SRCDIR)/, $(LIBFT_SRC_NAMES))
 LIBFT_OBJ= $(LIBFT_SRC:%.s=%.o)
 

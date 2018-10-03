@@ -6,7 +6,7 @@
 /*   By: tvallee <tvallee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/29 19:44:50 by tvallee           #+#    #+#             */
-/*   Updated: 2018/10/01 13:53:02 by tvallee          ###   ########.fr       */
+/*   Updated: 2018/10/03 17:46:53 by tvallee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,12 +204,78 @@ static void	test_cat(void)
 	assert(strcmp(buf, "slt\n") == 0);
 }
 
+static void	test_putchar(char c)
+{
+	int		ret;
+	int		out;
+	int		p[2];
+	char	buf[2];
+
+	out = dup(1);
+	pipe(p);
+	dup2(p[1], 1);
+	ft_putchar(c);
+	dup2(out, 1);
+	ret = read(p[0], buf, 2);
+	assert(ret == 1);
+	buf[ret] = 0;
+	close(p[0]);
+	close(p[1]);
+	close(out);
+	assert(buf[0] == c);
+}
+
+static void	test_putnbr(char const *nums)
+{
+	int	num;
+	int		ret;
+	int		out;
+	int		p[2];
+	char	buf[10000];
+
+	num = atoi(nums);
+	out = dup(1);
+	pipe(p);
+	dup2(p[1], 1);
+	ft_putnbr(num);
+	dup2(out, 1);
+	ret = read(p[0], buf, 10000);
+	buf[ret] = 0;
+	close(p[0]);
+	close(p[1]);
+	close(out);
+	assert(!strcmp(buf, nums));
+}
+
+static void	test_putstr(char const *str)
+{
+	int		ret;
+	int		out;
+	int		p[2];
+	char	buf[10000];
+
+	out = dup(1);
+	pipe(p);
+	dup2(p[1], 1);
+	ft_putstr(str);
+	dup2(out, 1);
+	ret = read(p[0], buf, 10000);
+	buf[ret] = 0;
+	close(p[0]);
+	close(p[1]);
+	close(out);
+	assert(!strcmp(buf, str));
+}
+
+static void	test_strcmp(char const *s1, char const *s2)
+{
+	assert(strcmp(s1, s2) == ft_strcmp(s1, s2));
+}
+
 int		main(void)
 {
 	test_bzero();
 	test_strcat();
-	test_isfunc(ft_islower, islower);
-	test_isfunc(ft_isupper, isupper);
 	test_isfunc(ft_isalpha, isalpha);
 	test_isfunc(ft_isdigit, isdigit);
 	test_isfunc(ft_isalnum, isalnum);
@@ -227,4 +293,21 @@ int		main(void)
 	test_memcpy();
 	test_strdup();
 	test_cat();
+
+	test_isfunc(ft_islower, islower);
+	test_isfunc(ft_isupper, isupper);
+	test_putchar('s');
+	test_putchar('l');
+	test_putchar('t');
+	test_putchar('\n');
+	test_putnbr("-2147483648");
+	test_putnbr("0");
+	test_putnbr("-42");
+	test_putnbr("42");
+	test_putstr("slt");
+	test_strcmp("", "");
+	test_strcmp("hello", "");
+	test_strcmp("salut", "salut");
+	test_strcmp("saluto", "salut");
+	test_strcmp("salut", "saluto");
 }
