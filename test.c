@@ -6,7 +6,7 @@
 /*   By: tvallee <tvallee@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/29 19:44:50 by tvallee           #+#    #+#             */
-/*   Updated: 2018/10/03 17:46:53 by tvallee          ###   ########.fr       */
+/*   Updated: 2018/10/04 13:20:37 by tvallee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static void test_puts(void)
 	int		ret;
 	int		puts_ret1;
 	int		puts_ret2;
+	int		puts_ret3;
 	int		out;
 	int		p[2];
 	char	buf[10000];
@@ -34,6 +35,8 @@ static void test_puts(void)
 	dup2(p[1], 1);
 	puts_ret1 = ft_puts("aaa");
 	puts_ret2 = ft_puts(NULL);
+	close(1);
+	puts_ret3 = ft_puts("closed");
 	dup2(out, 1);
 	ret = read(p[0], buf, 10000);
 	buf[ret] = 0;
@@ -42,6 +45,7 @@ static void test_puts(void)
 	close(out);
 	assert(puts_ret1 > 0);
 	assert(puts_ret2 > 0);
+	assert(puts_ret3 == EOF);
 	assert(strcmp(buf, "aaa\n(null)\n") == 0);
 }
 

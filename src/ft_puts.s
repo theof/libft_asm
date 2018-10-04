@@ -6,7 +6,7 @@
 ;    By: tvallee <tvallee@student.42.fr>            +#+  +:+       +#+         ;
 ;                                                 +#+#+#+#+#+   +#+            ;
 ;    Created: 2018/09/29 19:52:09 by tvallee           #+#    #+#              ;
-;    Updated: 2018/09/29 19:52:13 by tvallee          ###   ########.fr        ;
+;    Updated: 2018/10/04 13:22:03 by tvallee          ###   ########.fr        ;
 ;                                                                              ;
 ; **************************************************************************** ;
 
@@ -42,11 +42,13 @@ _ft_puts_str:
 	mov rdi, 1
 	mov rax, MACH_SYSCALL(WRITE)
 	syscall
+	jc _ft_puts_err
 	
 	lea rsi, [rel nl]
 	mov rdx, 1
 	mov rax, MACH_SYSCALL(WRITE)
 	syscall
+	jc _ft_puts_err
 
 	leave
 	ret
@@ -59,6 +61,12 @@ _ft_puts_null:
 	mov rdx, null.len
 	mov rax, MACH_SYSCALL(WRITE)
 	syscall
+	jc _ft_puts_err
 
+	leave
+	ret
+
+_ft_puts_err:
+	mov rax, -1
 	leave
 	ret
